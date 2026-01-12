@@ -1,3 +1,44 @@
+# EzBoost Boosts Configuration
+#
+# This file defines all available boosts and their properties.
+#
+# ---
+# OVERRIDES (Worlds, Regions, WorldGroups)
+#
+# To customize boosts for specific worlds or WorldGuard regions, use the 'overrides:' section
+# at the TOP LEVEL of this file (not in a separate overrides.yml).
+#
+# Example structure:
+#
+# boosts:
+#   speed:
+#     ...
+#   jump:
+#     ...
+#
+# overrides:
+#   worlds:
+#     world_nether:
+#       speed:
+#         enabled: false
+#   regions:
+#     spawn:
+#       jump:
+#         enabled: false
+#   worldgroups:
+#     minigames:
+#       strength:
+#         duration: 30
+#         amplifier: 2
+#
+# - Region overrides require WorldGuard (detected automatically, no hard dependency).
+# - Region overrides take priority over world/worldgroup/global.
+# - See docs/overrides.md for advanced syntax and more examples.
+#
+# ---
+#
+# Define your boosts below:
+
 # =========================================
 # EzBoost Boosts Configuration
 # -----------------------------------------

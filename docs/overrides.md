@@ -14,26 +14,36 @@ EzBoost supports advanced configuration overrides for boosts based on world, wor
 You can override any boost's settings for a specific world, a group of worlds, or a WorldGuard region. The plugin will automatically use the most specific override available for each player.
 
 ## Configuration Structure
-Overrides are defined in `boosts.yml` under each boost key:
+Overrides are defined at the TOP LEVEL of `boosts.yml` (not in a separate file, and not under each boost key):
 
 ```yaml
-my_boost:
-  # ...global/default settings...
-  overrides:
-    worlds:
-      world_nether:
-        # settings for this world
-    worldgroups:
-      minigames:
-        # settings for this group
-    regions:
-      spawn:
-        # settings for this WorldGuard region
+boosts:
+  speed:
+    duration-seconds: 60
+    amplifier: 1
+    # ...
+  jump:
+    # ...
+
+overrides:
+  worlds:
+    world_nether:
+      speed:
+        duration-seconds: 30
+        amplifier: 2
+  worldgroups:
+    minigames:
+      speed:
+        enabled: false
+  regions:
+    spawn:
+      jump:
+        enabled: false
 ```
 
-- `worlds`: Map of world name → override settings
-- `worldgroups`: Map of group name → override settings (define groups in config)
-- `regions`: Map of WorldGuard region name → override settings
+- `worlds`: Map of world name → per-boost override settings
+- `worldgroups`: Map of group name → per-boost override settings (define groups in config)
+- `regions`: Map of WorldGuard region name → per-boost override settings
 
 ## Override Priority
 When a player is in a region/world/group with overrides, the plugin uses the following priority:
@@ -46,33 +56,29 @@ When a player is in a region/world/group with overrides, the plugin uses the fol
 ## Examples
 ### Per-World Override
 ```yaml
-speed_boost:
-  duration-seconds: 60
-  amplifier: 1
-  overrides:
-    worlds:
-      world_nether:
+overrides:
+  worlds:
+    world_nether:
+      speed:
         duration-seconds: 30
         amplifier: 2
 ```
 
 ### Per-WorldGroup Override
 ```yaml
-speed_boost:
-  # ...
-  overrides:
-    worldgroups:
-      minigames:
+overrides:
+  worldgroups:
+    minigames:
+      speed:
         enabled: false
 ```
 
 ### Per-Region Override
 ```yaml
-speed_boost:
-  # ...
-  overrides:
-    regions:
-      spawn:
+overrides:
+  regions:
+    spawn:
+      jump:
         enabled: false
 ```
 
@@ -85,6 +91,7 @@ speed_boost:
 - Only specify override fields you want to change; all other settings inherit from the global boost definition.
 - Use region overrides for spawn, PvP arenas, or special protected areas.
 - Use worldgroups to manage multiple worlds with the same rules.
+- Do NOT use a separate `overrides.yml` file—always place overrides in the top level of `boosts.yml`.
 
 ---
 For more details, see the main configuration and example files.
