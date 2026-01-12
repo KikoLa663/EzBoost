@@ -78,7 +78,7 @@ EzBoost uses a multi-file configuration system for clarity and maintainability. 
 EzBoost supports advanced overrides for boosts based on world or WorldGuard region. You can:
 - Change boost effects, duration, cost, or permissions for a specific world or region.
 - Disable certain boosts in specific regions (e.g., PvP arenas, spawn zones).
-- Use `overrides.yml` to define per-world or per-region settings. If WorldGuard is installed, region overrides are applied automatically using reflection (no hard dependency).
+- Use `boosts.yml` to define per-world or per-region settings. If WorldGuard is installed, region overrides are applied automatically using reflection (no hard dependency).
 
 See [docs/overrides.md](docs/overrides.md) for syntax and examples.
 
