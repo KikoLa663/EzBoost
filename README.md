@@ -5,7 +5,7 @@
 
 # EzBoost
 
-EzBoost is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bukkit servers (Minecraft 1.7–1.21.*). It empowers server owners to offer configurable, time-limited potion boosts to players. Designed for flexibility, maintainability, and performance, EzBoost features a clean multi-file configuration system, a customizable GUI, per-boost cooldowns, world restrictions, and optional Vault economy integration.
+EzBoost is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bukkit servers (Minecraft 1.7–1.21.*). It empowers server owners to offer configurable, time-limited potion boosts to players. Designed for flexibility, maintainability, and performance, EzBoost features a clean multi-file configuration system, a customizable GUI, per-boost cooldowns, world restrictions, optional Vault economy integration, boost token items, and advanced region-based overrides with WorldGuard support.
 
 ---
 
@@ -16,8 +16,9 @@ EzBoost is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bu
 - **Interactive GUI**: Customizable inventory interface for boost activation.
 - **Per-boost cooldowns**: Prevents abuse and enables balanced gameplay.
 - **World restrictions**: Allow or deny boosts in specific worlds.
+- **Region-based overrides (WorldGuard)**: Apply different boost settings or disable boosts in specific WorldGuard regions using the built-in override system. No hard dependency—WorldGuard is detected automatically if present.
 - **Vault economy support**: Optionally charge players for activating boosts.
-- **Boost token items**: Give, trade, or reward boost tokens.
+- **Boost token items**: Give, trade, or reward boost tokens. Players redeem tokens by right-clicking them to activate the corresponding boost.
 - **Live reload**: Reload all configuration and messages at runtime.
 - **MiniMessage support**: Rich formatting for all messages and GUI text.
 
@@ -38,7 +39,7 @@ EzBoost is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bu
 - `/boost` — Open the boosts GUI (if enabled) or display usage.
 - `/boost <boostKey>` — Activate a boost directly.
 - `/ezboost reload` — Reload all configuration and messages.
-- `/ezboost give <player> <boostKey> [amount]` — Give boost token items to a player.
+- `/ezboost give <player> <boostKey> [amount]` — Give boost token items to a player. Tokens can be redeemed by right-clicking them.
 
 ### Permissions
 
@@ -47,6 +48,15 @@ EzBoost is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bu
 - `ezboost.reload` — Reload configuration.
 - `ezboost.give` — Give boost tokens.
 - `ezboost.cooldown.bypass` — Bypass boost cooldowns.
+- `ezboost.boost.<key>` — Per-boost permissions (example: `ezboost.boost.speed`).
+
+---
+
+## Boost Tokens
+
+Boost tokens are special items that can be given to players as rewards, crate prizes, or shop items.  
+- **Giving tokens:** Use `/ezboost give <player> <boostKey> [amount]` to give boost tokens.
+- **Redeeming tokens:** Players right-click a boost token in their main hand to instantly activate the corresponding boost. The token is consumed on use.
 
 ---
 
@@ -63,26 +73,22 @@ EzBoost uses a multi-file configuration system for clarity and maintainability. 
 - `messages.yml` — MiniMessage-formatted strings for feedback and actionbar text.
 - `data.yml` — Persisted player boost states and cooldowns (auto-managed).
 
+### Region & World Overrides
 
+EzBoost supports advanced overrides for boosts based on world or WorldGuard region. You can:
+- Change boost effects, duration, cost, or permissions for a specific world or region.
+- Disable certain boosts in specific regions (e.g., PvP arenas, spawn zones).
+- Use `boosts.yml` to define per-world or per-region settings. If WorldGuard is installed, region overrides are applied automatically using reflection (no hard dependency).
 
-For a complete overview of all configuration options, see the [Configuration Reference](docs/config.md).
-For details on default boosts, see the [Boosts Reference](docs/boosts.md). For GUI customization, see the [GUI Reference](docs/gui.md).
-
-#### Example: Adding a New Boost
-
-1. Open `boosts.yml` and copy an existing boost section.
-2. Change the key, display name, icon, effects, and other properties as needed.
-3. Reload the plugin with `/ezboost reload`.
-
-#### Example: Customizing the GUI
-
-Edit `gui.yml` to change the GUI title, size, filler item, slot mapping, and lore/status text.
+See [docs/overrides.md](docs/overrides.md) for syntax and examples.
 
 ---
 
-## Contributing
+## WorldGuard Integration
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, code style, and module structure. All gameplay features and configuration logic should be organized in dedicated classes and packages under `/ezboost/`.
+- EzBoost automatically detects WorldGuard if present and applies region-based overrides for boosts.
+- No hard dependency: If WorldGuard is not installed, region overrides are ignored.
+- Use region IDs from WorldGuard in your `overrides.yml` to customize boost behavior per region.
 
 ---
 
