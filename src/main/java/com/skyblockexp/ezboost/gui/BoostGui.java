@@ -27,6 +27,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+// regex for format cost
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class BoostGui {
     private final JavaPlugin plugin;
@@ -168,7 +171,7 @@ public final class BoostGui {
         return settings.status("available", "Available");
     }
 
-    private String formatCost(double cost) {
+   /* private String formatCost(double cost) {
         if (cost <= 0.0) {
             return "Free";
         }
@@ -176,7 +179,34 @@ public final class BoostGui {
             return String.valueOf((int) cost);
         }
         return String.format(Locale.US, "%.2f", cost);
+    }*/
+
+    private String format(double cost) {
+         String string ="Free";
+         if (cost<=0.0){
+         return string;}
+        
+         else if(cost == Math.floor(cost)) {
+            string=String.valueOf((int) cost);
+        }
+        else{
+            string=String.valueOf(cost);
+        }
+        
+        String patternString = "(?=(?!^)\\d{3}(?:\\b|(?:\\d{3})+)\\b)";
+        if (string.contains(".")) {
+            patternString = "(?=(?!^)\\d{3}(?:\\b|(?:\\d{3})+)\\b\\.)";
+        }
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(string);
+        StringBuffer result = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(result, ",");
+        }
+        matcher.appendTail(result);
+        return result.toString();
     }
+
     
     public void refreshAllOpenGuis() {
         for (Player player : Bukkit.getOnlinePlayers()) {
